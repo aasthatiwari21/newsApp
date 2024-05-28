@@ -4,12 +4,14 @@ import React from 'react';
 import NavBar from './components/NavBar';
 import News from './components/News';
 
+
 export default function App() {
   return (
     <div style={{color: "white"}}>
       <Router>
         <NavBar />
         <Routes>
+          <Route exact path='/' element={<News key = "general" pageSize={6} country="in" category="general" />} />
           <Route exact path='/general' element={<News key = "general" pageSize={6} country="in" category="general" />} />
           <Route exact path='/business' element={<News key = "business" pageSize={6} country="in" category="business" />} />
           <Route  exact path='/sports' element={<News key = "sports"  pageSize={6} country="in" category="sports" />} />
