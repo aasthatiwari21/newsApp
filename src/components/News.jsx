@@ -2,12 +2,15 @@ import React, { Component , useEffect , useState} from 'react'
 import NewsItem from './NewsItem'
 import PropTypes from 'prop-types'
 import InfiniteScroll from "react-infinite-scroll-component"
+import Spinner from './Spinner'
 
 const News = (props) => {
 	const [articles,setArticles] = useState([])
 	const [loading, setLoading] = useState(true)
 	const [page , setPage] = useState(1);
 	const [totalResults, setTotalResults] = useState(0)
+
+
   const updateNews =  async () => {
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=c2dd0111d63d4eb8984ce02fd9e99055&page=${page}&pageSize=${props.pageSize}`;
     let data = await fetch(url);
@@ -55,8 +58,8 @@ useEffect(()=>{
 	const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=c2dd0111d63d4eb8984ce02fd9e99055&page=${page}&pageSize=${props.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
-	setArticles(articles.concat(parsedData.articles))
-	setTotalResults(parsedData.totalResults)
+    setArticles(articles.concat(parsedData.articles))
+    setTotalResults(parsedData.totalResults)
   	};
 
     const totalPages = Math.ceil(totalResults / props.pageSize);
@@ -64,14 +67,15 @@ useEffect(()=>{
 
     return (
 
-      <div className='container my-3' style={{ backgroundColor: "#261c26" }}>
-        <h1 style={{ fontFamily: "san-serif", textDecoration: "underline", textAlign: "center", padding: "30px", margin: "10px", fontSize: "3em", color: "white" }}>News - Top Headline</h1>
+      <div className='container my-3'>
+        <h1 style={{ fontFamily: "san-serif", textDecoration: "underline", textAlign: "center", padding: "20px", margin: "50px", fontSize: "3em", color: "black" }}>News - Top Headline</h1>
 
+       { loading && <Spinner/>}
         <InfiniteScroll
           dataLength={articles.length}
           next={fetchMoreData}
           hasMore={articles.length !== totalResults }
-          loader={<h4>Loading...</h4>}
+          loader={<Spinner/>}
         >
 		<div className="container">
           <div className='row' style={{ padding: "10px" }}>
